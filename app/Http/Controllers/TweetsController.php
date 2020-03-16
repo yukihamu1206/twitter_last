@@ -12,4 +12,9 @@ class TweetsController extends Controller
         $token = Auth()->user()->api_token;
         return view('tweets.create',['token' => $token]);
     }
+
+    public function index()
+    {
+        return view('tweets.index');
+    }
 }

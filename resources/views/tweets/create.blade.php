@@ -9,12 +9,11 @@
             $('.submit-button').click(function(){
                 var token = "{{ $token }}";
                 var tweet = $('.form-control').val();
-                console.log(tweet);
                 if(tweet === ""){
                     $('.error_message').text('空欄はダメだよ');
                 }else {
                     $.ajax({
-                        url: 'http://localhost/api/post_tweet?api_token=',
+                        url: 'http://localhost/api/post_tweet',
                         type: 'POST',
                         data: { text:tweet, api_token:"{{$token}}"},
                     }).done(function (tweet) {

@@ -48,4 +48,29 @@ class ApiController extends Controller
             200, [],
             JSON_UNESCAPED_UNICODE);
         }
+
+    public function get_timeline()
+    {
+        $tweets = Tweet::all();
+
+        $lists = [];
+
+            foreach($tweets as $tweet){
+                $elm = [
+                    'text' => $tweet->text,
+                    'name' => $tweet->user->name,
+                    'screen_name' => $tweet->user->screen_name,
+                    'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
+                    'created_at' => $tweet->created_at->format('Y-m-d H:i'),
+                ];
+
+                $lists[] = $elm;
+            }
+
+            return response()->json(
+                ['lists' => $lists],
+                200, [],
+                JSON_UNESCAPED_UNICODE);
+
+        }
 }
