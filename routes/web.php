@@ -19,5 +19,5 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    route::get('tweets/create', 'TweetsController@create')->name('tweets.create');
+    route::get('tweet', 'TweetsController@create')->name('tweets.create');
 });

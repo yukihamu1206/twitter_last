@@ -8,19 +8,24 @@
         $(function(){
             $('.submit-button').click(function(){
                 var token = "{{ $token }}";
-                var tweet = $('.form-control').serialize();
-                $.ajax({
-                    url: 'http://localhost/api/post_tweet?api_token=' + token,
-                    type: 'POST',
-                    data: tweet,
-                }).done(function(tweet){
-                    if(tweet){
-                        $('.before_tweet').css({'display':'none'});
-                        $('.after_tweet').css({'display':'block'});
-                    }else{
-                        $('.failed_tweet').css({'display':'block'});
-                    }
-                });
+                var tweet = $('.form-control').val();
+                console.log(tweet);
+                if(tweet === ""){
+                    $('.error_message').text('空欄はダメだよ');
+                }else {
+                    $.ajax({
+                        url: 'http://localhost/api/post_tweet?api_token=',
+                        type: 'POST',
+                        data: { text:tweet, api_token:"{{$token}}"},
+                    }).done(function (tweet) {
+                        if (tweet) {
+                            $('.before_tweet').css({'display': 'none'});
+                            $('.after_tweet').css({'display': 'block'});
+                        }
+                    }).fail(function () {
+                        $('.failed_tweet').css({'display': 'block'});
+                    });
+                }
             });
         });
     </script>
@@ -37,13 +42,12 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
-                                    <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
+                                    <textarea class="form-control" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
 
-                                    @error('text')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+
+                                    <span role="alert">
+                                        <strong class="error_message alert-danger"></strong>
                                     </span>
-                                    @enderror
                                 </div>
                             </div>
 
