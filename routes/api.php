@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::post('post_tweet','ApiController@post_tweet')->middleware('auth:api');
+Route::get('get_user','ApiController@get_user');

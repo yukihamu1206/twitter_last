@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -49,6 +51,17 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item mr-5">
+                                <a href="{{ url('tweets/create') }}" class="btn btn-md btn-primary">ツイートする</a>
+                            </li>
+                            <li class="nav-item">
+                                @if(auth()->user()->profile_image == null)
+                                    <img src="{{ asset('storage/profile_image/noimage.jpg') }}" class="rounded-circle" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('storage/profile_image/'.auth()->user()->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                @endif
+                            </li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
