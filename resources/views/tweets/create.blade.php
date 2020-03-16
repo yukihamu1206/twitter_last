@@ -23,6 +23,7 @@
                             $('.after_tweet').css({'display': 'block'});
                         }
                     }).fail(function () {
+                        $('.before_tweet').css({'display': 'none'});
                         $('.failed_tweet').css({'display': 'block'});
                     });
                 }
@@ -79,9 +80,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-12 text-center">
-                                <button type="button" class="btn btn-primary submit-button">
-                                    タイムラインをみる
-                                </button>
+                                    <a href="#" class="btn btn-primary submit-button">タイムラインをみる</a>
                             </div>
                         </div>
                     </div>
@@ -103,9 +102,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-12 text-center">
-                                <button type="button" class="btn btn-primary submit-button">
-                                    投稿画面に戻る
-                                </button>
+                                <a href="/tweet" class="btn btn-primary submit-button">投稿画面に戻る</a>
                             </div>
                         </div>
                     </div>
