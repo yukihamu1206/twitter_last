@@ -9,6 +9,11 @@
                 type:'GET',
             }).done(function(data){
                 if(data['lists']){
+                    // 要素数を取得
+                    var length = Object.keys(data['lists']).length;
+                    for( i = 1; i < length; i++){
+
+                    }
 
                 }else{
                     console.log('false');
