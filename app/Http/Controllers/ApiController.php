@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Tweet;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -62,7 +64,10 @@ class ApiController extends Controller
                     'screen_name' => $tweet->user->screen_name,
                     'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
                     'created_at' => $tweet->created_at->format('Y-m-d H:i'),
-                    'user_id' => $tweet->user->id
+                    'user_id' => $tweet->user->id,
+                    'tweet_id' => $tweet->id,
+                    'favorite_id' => $tweet->favorites->where('tweet_id',$tweet->id)->where('user_id',Auth()->id())->first(),
+                    'favorite_icon' => $tweet->favorites->where('tweet_id',$tweet->id)->where('user_id',Auth()->id())->first() ? 'fas' : 'far'
                 ];
 
                 $lists[] = $elm;
@@ -74,4 +79,39 @@ class ApiController extends Controller
                 JSON_UNESCAPED_UNICODE);
 
         }
+
+    public function favorite(Request $request, Favorite $favorite)
+    {
+        $user = Auth()->user();
+
+        $tweet_id = $request->tweet_id;
+        $favorite->storeFavorite($user->id,$tweet_id);
+
+        $favorites_count  = $favorite->where('tweet_id', $tweet_id)
+            ->count();
+        $user_favorite_id = $favorite->where('user_id', $user->id)
+            ->where('tweet_id', $tweet_id)
+            ->first()->id;
+
+        return responce()->json([
+            'favorites_count' => $favorites_count,
+            'user_favorite_id' => $user_favorite_id,
+            ]);
+
+        }
+
+    public function delete_favorite(Favorite $favorite){
+        $user_id     = $favorite->user_id;
+        $tweet_id    = $favorite->tweet_id;
+        $favorite_id = $favorite->id;
+
+        $favorite->destroyFavorite($favorite_id);
+
+        $favorites_count = $favorite->where('tweet_id', $tweet_id)->count();
+
+        return response()->json([
+            'result'          => true,
+            'favorites_count' => $favorites_count,
+        ]);
+    }
 }

@@ -17,3 +17,5 @@ use Illuminate\Http\Request;
 Route::post('post_tweet','ApiController@post_tweet')->middleware('auth:api');
 Route::get('get_user','ApiController@get_user');
 Route::get('get_timeline',"ApiController@get_timeline");
+Route::post('favorite','ApiController@favorite');
+Route::delete('favorite/{favorite}','ApiController@delete_favorite');
