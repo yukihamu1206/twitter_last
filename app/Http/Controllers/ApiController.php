@@ -62,6 +62,7 @@ class ApiController extends Controller
                     'screen_name' => $tweet->user->screen_name,
                     'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
                     'created_at' => $tweet->created_at->format('Y-m-d H:i'),
+                    'user_id' => $tweet->user->id
                 ];
 
                 $lists[] = $elm;
