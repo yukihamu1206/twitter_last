@@ -9,9 +9,13 @@
             $('.submit-button').click(function(){
                 var token = "{{ $token }}";
                 var tweet = $('.form-control').val();
+<<<<<<< Updated upstream
                 if(tweet === ""){
                     $('.error_message').text('空欄はダメだよ');
                 }else {
+=======
+                console.log(tweet);
+>>>>>>> Stashed changes
                     $.ajax({
                         url: 'http://localhost/api/post_tweet',
                         type: 'POST',
@@ -25,9 +29,8 @@
                         $('.before_tweet').css({'display': 'none'});
                         $('.failed_tweet').css({'display': 'block'});
                     });
-                }
-            });
-        });
+                });
+             });
     </script>
 
     <div class="container">

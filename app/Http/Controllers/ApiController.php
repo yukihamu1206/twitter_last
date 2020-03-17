@@ -30,16 +30,13 @@ class ApiController extends Controller
             JSON_UNESCAPED_UNICODE);
         }
 
-    public function post_tweet(Request $request)
+    public function post_tweet(TweetRequest $request)
     {
 
         $tweet = new Tweet;
         $tweet->text = $request->text;
         $tweet->user_id = Auth()->id();
 
-        $request->validate([
-        'text' => ['required','max:140']
-        ]);
 
         $tweet->save();
 
@@ -49,29 +46,5 @@ class ApiController extends Controller
             JSON_UNESCAPED_UNICODE);
         }
 
-    public function get_timeline()
-    {
-        $tweets = Tweet::all();
 
-        $lists = [];
-
-            foreach($tweets as $tweet){
-                $elm = [
-                    'text' => $tweet->text,
-                    'name' => $tweet->user->name,
-                    'screen_name' => $tweet->user->screen_name,
-                    'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
-                    'created_at' => $tweet->created_at->format('Y-m-d H:i'),
-                    'user_id' => $tweet->user->id
-                ];
-
-                $lists[] = $elm;
-            }
-
-            return response()->json(
-                ['lists' => $lists],
-                200, [],
-                JSON_UNESCAPED_UNICODE);
-
-        }
 }
