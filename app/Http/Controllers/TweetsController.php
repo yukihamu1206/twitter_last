@@ -26,7 +26,7 @@ class TweetsController extends Controller
                 'created_at' => $tweet->created_at->format('Y-m-d H:i'),
                 'profile_image' => Storage::disk('s3')->url($tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
-                'screen_name' => $tweet->screen_name,
+                'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
                 'tweet_id' => $tweet->id
             ];
