@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tweet;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TweetsController extends Controller
 {
@@ -14,7 +15,7 @@ class TweetsController extends Controller
         return view('tweets.create',['token' => $token]);
     }
 
-    public function index()
+    public function index(Tweet $tweet)
     {
         $tweets = Tweet::all();
 
@@ -33,6 +34,14 @@ class TweetsController extends Controller
 
             $lists[] = $elm;
         }
+
+       $lists = new LengthAwarePaginator(
+         array_chunk($lists,5),
+           count($lists),
+           5,
+           1
+       );
+
 
         return view('tweets.index',['lists' => $lists]);
 

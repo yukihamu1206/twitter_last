@@ -44,7 +44,7 @@
                 @endforeach
             </div>
         <div class="my-4 d-flex justify-content-center">
-{{--            {{ $lists->links() }}--}}
+            {{ $lists->links() }}
         </div>
     </div>
 @endsection
