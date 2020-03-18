@@ -7,7 +7,7 @@
                     <div class="col-md-8 mb-3">
                         <div class="card">
                             <div class="card-haeder p-3 w-100 d-flex">
-                                <img src="{{ asset('storage/profile_image/' .$list['profile_image']) }}" class="rounded-circle" width="50" height="50">
+                                <img src="{{ $list['profile_image'] }}" class="rounded-circle" width="50" height="50">
                                 <div class="ml-2 d-flex flex-column">
                                     <p class="mb-0">{{ $list['name'] }}</p>
                                     <a href="{{ url('users/' .$list['user_id']) }}" class="text-secondary">{{ $list['screen_name'] }}</a>

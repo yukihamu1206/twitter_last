@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class TweetsController extends Controller
 {
@@ -24,7 +24,7 @@ class TweetsController extends Controller
             $elm = [
                 'text' => $tweet->text,
                 'created_at' => $tweet->created_at->format('Y-m-d H:i'),
-                'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
+                'profile_image' => Storage::disk('s3')->url($tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->screen_name,
                 'user_id' => $tweet->user->id,
