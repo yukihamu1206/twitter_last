@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Tweet extends Model
@@ -35,6 +36,8 @@ class Tweet extends Model
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
                 'tweet_id' => $tweet->id,
+                'user_favorite' => $tweet->favorites ? $tweet->favorites->where('user_id',Auth()->user()->id)->first() : null,
+                'favorite_count' => $tweet->favorites ? $tweet->favorites->count() : 0
             ];
 
             $timeline[] = $elm;
