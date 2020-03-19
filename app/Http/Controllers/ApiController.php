@@ -31,7 +31,7 @@ class ApiController extends Controller
             ['tweet' => $tweet],
             200,
             [],
-            PED_UNICODE
+            JSON_UNESCAPED_UNICODE
         );
     }
 }
