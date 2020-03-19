@@ -7,9 +7,9 @@
                     <div class="col-md-8 mb-3">
                         <div class="card">
                             <div class="card-haeder p-3 w-100 d-flex">
-                                <img src="{{ asset('storage/profile_image/' .$list['profile_image']) }}" class="rounded-circle" width="50" height="50">
-                                <div class="ml-2 d-flex flex-column">
-                                    <p class="mb-0">{{ $list['name'] }}</p>
+                                <img src="{{ $list['profile_image'] }}" class="rounded-circle" width="50" height="50">
+                                <div class="d-flex" style="padding-left:10px">
+                                    <p class="mb-0" style="padding-right:10px">{{ $list['name'] }}</p>
                                     <a href="{{ url('users/' .$list['user_id']) }}" class="text-secondary">{{ $list['screen_name'] }}</a>
                                 </div>
                                 <div class="d-flex justify-content-end flex-grow-1">
@@ -44,7 +44,7 @@
                 @endforeach
             </div>
         <div class="my-4 d-flex justify-content-center">
-{{--            {{ $lists->links() }}--}}
+            {{ $lists->links() }}
         </div>
     </div>
 @endsection

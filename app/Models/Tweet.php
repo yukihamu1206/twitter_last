@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Tweet extends Model
 {
@@ -14,6 +15,31 @@ class Tweet extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
 
+    /**
+     * タイムラインに表示するツイートデータを取得
+     *
+     * @return array
+     */
+    public function getTimeline()
+    {
+        $tweets = self::paginate(5);
+
+        $timeline = [];
+        foreach ($tweets as $tweet) {
+            $elm = [
+                'text' => $tweet->text,
+                'created_at' => $tweet->created_at->format('Y/m/d H:i'),
+                'profile_image' => Storage::disk('s3')->url($tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'name' => $tweet->user->name,
+                'screen_name' => $tweet->user->screen_name,
+                'user_id' => $tweet->user->id,
+                'tweet_id' => $tweet->id,
+            ];
+
+            $timeline[] = $elm;
+        }
+
+        return $timeline;
+    }
 }

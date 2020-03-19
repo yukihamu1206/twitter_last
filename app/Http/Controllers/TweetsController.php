@@ -4,38 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TweetsController extends Controller
 {
     public function create()
     {
         $token = Auth()->user()->api_token;
-        return view('tweets.create',['token' => $token]);
+        return view('tweets.create', ['token' => $token]);
     }
 
-    public function index()
+    /**
+     * タイムラインを表示する
+     *
+     * @param  Request  $request
+     * @param  Tweet  $tweet
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request, Tweet $tweet)
     {
-        $tweets = Tweet::all();
+        $lists = $tweet->getTimeline();
 
-        $lists = [];
+        $lists = new LengthAwarePaginator(
+            $lists,
+            count(Tweet::all()),
+            5,
+            $request->page,
+            array('path' => $request->url())
+        );
 
-        foreach($tweets as $tweet){
-            $elm = [
-                'text' => $tweet->text,
-                'created_at' => $tweet->created_at->format('Y-m-d H:i'),
-                'profile_image' => $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg',
-                'name' => $tweet->user->name,
-                'screen_name' => $tweet->screen_name,
-                'user_id' => $tweet->user->id,
-                'tweet_id' => $tweet->id
-            ];
-
-            $lists[] = $elm;
-        }
-
-        return view('tweets.index',['lists' => $lists]);
-
-
+        return view('tweets.index', ['lists' => $lists]);
     }
 }
