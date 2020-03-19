@@ -22,7 +22,7 @@
                             </div>
                             <div class="card-footer py-1 d-flex justify-content-end bg-white">
                                 <div class="d-flex align-items-center">
-                                    <button type="button" class="btn p-0 border-0 text-primary submit_button" data-tweet="{{ $list['tweet_id'] }}"><i class="far fa-heart fa-fw" data-favorite="{{optional($list['user_favorite'])->id}}"></i></button>
+                                    <button type="button" class="btn p-0 border-0 text-primary submit_button" data-tweet="{{ $list['tweet_id'] }}"><i class="{{ $list['user_favorite'] ? 'fas' : 'far' }} fa-heart fa-fw" data-favorite="{{optional($list['user_favorite'])->id}}"></i></button>
                                     <p class="mb-0 text-secondary">{{ $list['favorite_count'] }}</p>
                                 </div>
                             </div>
@@ -39,10 +39,53 @@
         $(function(){
             $('.submit_button').click(function(){
                 let button = $(this);
-                let favorite = $()
+                let i = button.children('i');
+                let favorite_count = button.parent().find('p');
+                let tweet_id = button.data('tweet');
+                if(i.hasClass('far')) {
+                    $.ajax({
+                        url:'http://localhost/api/favorite',
+                        type:'POST',
+                        data:{
+                            tweet_id:tweet_id
+                        }
+                    }).done(function(data){
+                        if(data['result']){
+                            i.removeClass('far');
+                            i.addClass('fas');
+                            i.data('favorite',data['user_favorite'] );
+                            favorite_count.text(data['favorite_count']);
+                        }else{
+                            console.log('error');
+                        }
+                    });
+                }else{
+                    let favorite_id = i.data('favorite');
+                    $.ajax({
+                        url:'http://localhost/api/favorite/' + favorite_id,
+                        type:'DELETE',
+                        data: {
+                            tweet_id: tweet_id,
+                            favorite_id: favorite_id
+                        }
+                    }).done(function(data){
+                        if(data['result']){
+                            i.removeClass('fas');
+                            i.addClass('far');
+                            i.data('favorite','');
+                            i.data('favorite','');
+                            favorite_count.text(data['favorite_count']);
+                        }else{
+                            console.log('error');
+                        }
+                    });
+
+                }
 
 
-            })
-        })
+            });
+        });
+
     </script>
+
 @endsection
