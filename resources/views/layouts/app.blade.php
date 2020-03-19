@@ -52,7 +52,7 @@
                             @endif
                         @else
                             <li class="nav-item mr-5">
-                                <a href="{{ url('tweets/create') }}" class="btn btn-md btn-primary">ツイートする</a>
+                                <a href="{{ url('tweet/') }}" class="btn btn-md btn-primary">ツイートする</a>
                             </li>
                             <li class="nav-item">
                                     <img src="{{Storage::disk('s3')->url(Auth()->user()->profile_image ? Auth()->user()->profile_image : 'noimage.jpg')}}" class="rounded-circle" width="50" height="50">
