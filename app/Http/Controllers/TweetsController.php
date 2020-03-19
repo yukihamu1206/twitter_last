@@ -15,8 +15,11 @@ class TweetsController extends Controller
     }
 
     /**
+     * タイムラインを表示する
+     *
      * @param  Request  $request
      * @param  Tweet  $tweet
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request, Tweet $tweet)
@@ -32,6 +35,5 @@ class TweetsController extends Controller
         );
 
         return view('tweets.index', ['lists' => $lists]);
-
     }
 }

@@ -16,6 +16,11 @@ class Tweet extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * タイムラインに表示するツイートデータを取得
+     *
+     * @return array
+     */
     public function getTimeline()
     {
         $tweets = self::paginate(5);
@@ -37,5 +42,4 @@ class Tweet extends Model
 
         return $timeline;
     }
-
 }

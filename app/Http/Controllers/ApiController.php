@@ -2,33 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TweetRequest;
 use App\Models\Tweet;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class ApiController extends Controller
 {
 
     /**
+     *formrequestでvalidationチェックして、jsonを返す
+     *
      * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function post_tweet(Request $request)
+    public function post_tweet(TweetRequest $request)
     {
+
+
         $tweet = new Tweet;
-        $tweet->text = $request->tweet;
+        $tweet->text = $request->text;
         $tweet->user_id = Auth()->id();
 
-        $request->validate([
-            'tweet' => ['required','max:140']
-        ]);
+        #validatorを取得する
+        $validator = $request->getValidator();
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'result' => false,
+                    'errors' => $validator->errors()
+                ],
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
+        }
 
         $tweet->save();
 
         return response()->json(
-            ['tweet' => $tweet],
+            [
+                'result' => true,
+                'tweet' => $tweet
+            ],
             200,
             [],
             JSON_UNESCAPED_UNICODE

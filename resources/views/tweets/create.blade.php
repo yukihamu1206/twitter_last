@@ -5,27 +5,26 @@
     <script>
         $(function() {
             $('.submit_button').click(function () {
-                    let tweet = $('.form-control').val();
+                    let text = $('.form-control').val();
                     let token = "{{ $token }}";
                     $.ajax({
                         url: 'http://localhost/api/post_tweet',
                         type: 'POST',
                         data: {
-                            tweet: tweet,
+                            text: text,
                             api_token: token
                         }
-                    }).done(function (tweet) {
-                        if (tweet) {
+                    }).done(function (data) {
+                        if(data['result'] === true){
                             $('.before_tweet').css({'display': 'none'});
                             $('.after_tweet').css({'display': 'block'});
+                        }else　if(data['result'] === false){
+                            console.log(data);
+                            $('.error_message').text(data['errors']['text']);
                         }
-                    }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                        if(XMLHttpRequest.status === 404){
-
-                        }else{
-                            $('.before_tweet').css({'display': 'none'});
-                            $('.failed_tweet').css({'display': 'block'});
-                        }
+                    }).fail(function () {
+                        $('.before_tweet').css({'display': 'none'});
+                        $('.failed_tweet').css({'display': 'block'});
                     });
                 });
             });
