@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TweetRequest;
 use App\Models\Tweet;
-use Illuminate\Http\Request;
+
 
 
 class ApiController extends Controller
 {
 
     /**
-     *formrequestでvalidationチェックして、jsonを返す
+     *TweetRequestでvalidationチェックして、jsonを返す
      *
-     * @param  Request  $request
+     * @param  TweetRequest  $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
