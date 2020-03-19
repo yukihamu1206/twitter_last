@@ -8,6 +8,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TweetsController extends Controller
 {
+    /**
+     *createページを表示する
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $token = Auth()->user()->api_token;
