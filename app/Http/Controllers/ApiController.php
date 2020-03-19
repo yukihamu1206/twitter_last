@@ -11,7 +11,7 @@ class ApiController extends Controller
 {
 
     /**
-     *formrequestでvalidationチェックして、jsonを返す
+     *TweetRequestでvalidationチェックして、jsonを返す
      *
      * @param  Request  $request
      *
