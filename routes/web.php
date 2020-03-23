@@ -20,5 +20,6 @@ Route::group(['middleware' => 'auth'], function() {
     route::get('tweet', 'TweetsController@create')->name('tweets.create');
     Route::get('/','TweetsController@index')->name('tweets.index');
     Route::get('tweet/{tweet}/edit','TweetsController@edit')->name('tweets.edit');
+    Route::get('user/{user}','UsersController@show');
 });
 
