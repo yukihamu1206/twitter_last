@@ -16,6 +16,11 @@ class Tweet extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     /**
      * タイムラインに表示するツイートデータを取得
      *
@@ -35,6 +40,8 @@ class Tweet extends Model
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
                 'tweet_id' => $tweet->id,
+                'user_favorite' => $tweet->favorites->where('user_id', Auth()->user()->id)->first(),
+                'favorite_count' => $tweet->favorites->count()
             ];
 
             $timeline[] = $elm;

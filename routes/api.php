@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +13,6 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('post_tweet','ApiController@post_tweet')->middleware('auth:api');
-Route::get('get_user','ApiController@get_user');
+Route::post('post_tweet','ApiController@postTweet')->middleware('auth:api');
+Route::post('favorite','ApiController@favorite');
+Route::delete('favorite/{favorite}','ApiController@deleteFavorite');
