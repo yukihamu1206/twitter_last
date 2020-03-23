@@ -82,7 +82,7 @@
                 let text = $('.form-control').val();
                 let token = "{{ $token }}";
                 $.ajax({
-                    url: 'http://localhost/api/post_tweet',
+                    url: 'api/post_tweet',
                     type: 'POST',
                     data: {
                         text: text,

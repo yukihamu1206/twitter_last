@@ -190,11 +190,11 @@
                     let tweet_id = $(this).data('tweet');
                     let api_token = "{{ $api_token }}";
                     $.ajax({
-                        url:'http://localhost/api/delete_tweet/' + tweet_id + '?api_token=' + api_token,
+                        url:'/api/tweet/' + tweet_id ,
+                        type:'DELETE',
                         data:{
-                            tweet_id:tweet_id
-                        },
-                        type:'DELETE'
+                            api_token: api_token
+                        }
                     }).done(function(){
                         $('.delete_confirm').css({'display': 'none'});
                         $('.after_delete').css({'display': 'block'});
@@ -211,10 +211,10 @@
                 let tweet_id = $(this).data('tweet');
                 let api_token = "{{ $api_token }}";
                 $.ajax({
-                    url:'http://localhost/api/update_tweet/' + tweet_id + '/?api_token=' + api_token,
+                    url:'/api/tweet/' + tweet_id,
                     data:{
-                        tweet_id:tweet_id,
-                        text:text
+                        text:text,
+                        api_token:api_token
                     },
                     type:'PUT'
                 }).done(function(data){

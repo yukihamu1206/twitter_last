@@ -20,7 +20,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function post_tweet(TweetRequest $request)
+    public function postTweet(TweetRequest $request)
     {
 
 
@@ -63,7 +63,7 @@ class ApiController extends Controller
      * @param  Tweet  $tweet
      * @return JsonResponse
      */
-    public function update_tweet(TweetRequest $request, Tweet $tweet)
+    public function update(TweetRequest $request, Tweet $tweet)
     {
 
         $tweet->text = $request->text;
@@ -103,7 +103,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function delete_tweet(Tweet $tweet)
+    public function destroy(Tweet $tweet)
     {
         $user = Auth()->user();
         $tweet->deleteTweet($user->id, $tweet->id);
@@ -154,7 +154,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function delete_favorite(Favorite $favorite)
+    public function deleteFavorite(Favorite $favorite)
     {
         $user_id = Auth()->id();
         $tweet_id = $favorite->tweet_id;
@@ -163,7 +163,7 @@ class ApiController extends Controller
 
 
         if ($is_Favorite) {
-            $favorite->delete_favorite($favorite_id);
+            $favorite->deleteFavorite($favorite_id);
             $favorite_count = $favorite->where('tweet_id', $tweet_id)->count();
 
             return response()->json([

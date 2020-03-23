@@ -52,9 +52,10 @@ class TweetsController extends Controller
     public function edit(Tweet $tweet){
 
         $user = Auth()->user();
-        $tweet = $tweet->getEditTweet($user->id, $tweet->id);
+        $tweet_id = $tweet->id;
+        $tweet_exist = $tweet->getEditTweet($user->id, $tweet_id);
 
-        if(!isset($tweet)){
+        if(!isset($tweet_exist)){
             return redirect('/');
         }
 
