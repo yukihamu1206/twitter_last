@@ -63,10 +63,6 @@
                     let favorite_id = button.children('i').data('favorite');
                     $.ajax({
                         url: 'api/favorite/' + favorite_id,
-                        data: {
-                            tweet_id: tweet_id,
-                            favorite_id: favorite_id
-                        },
                         type: 'DELETE',
                     }).done(function(data){
                             if(data['result']){
