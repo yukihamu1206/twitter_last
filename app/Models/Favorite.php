@@ -38,6 +38,7 @@ class Favorite extends Model
         return;
     }
 
+
     public function delete_favorite(Int $favorite_id)
     {
         return $this->where('id', $favorite_id)->delete();
