@@ -90,7 +90,9 @@ class ApiController extends Controller
 
     /**
      * いいね削除
+     *
      * @param  Favorite  $favorite
+     *
      * @return JsonResponse
      */
     public function delete_favorite(Favorite $favorite)
