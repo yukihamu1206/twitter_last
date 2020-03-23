@@ -39,53 +39,51 @@
         $(function(){
             $('.submit_button').click(function(){
                 let button = $(this);
-                let i = button.children('i');
+                let i = $(this).children('i');
                 let favorite_count = button.parent().find('p');
                 let tweet_id = button.data('tweet');
-                if(i.hasClass('far')) {
+                if(i.hasClass('far')){
                     $.ajax({
                         url:'http://localhost/api/favorite',
+                        data: {
+                            tweet_id: tweet_id
+                        },
                         type:'POST',
-                        data:{
-                            tweet_id:tweet_id
-                        }
-                    }).done(function(data){
-                        if(data['result']){
-                            i.removeClass('far');
-                            i.addClass('fas');
-                            i.data('favorite',data['user_favorite'] );
-                            favorite_count.text(data['favorite_count']);
-                        }else{
-                            console.log('error');
+                        success:function(data){
+                            if(data['result']){
+                                i.removeClass('far');
+                                i.addClass('fas');
+                                i.data('favorite',data['user_favorite_id']);
+                                favorite_count.text(data['favorite_count']);
+                            }else{
+                                console.log('error');
+                            }
                         }
                     });
                 }else{
-                    let favorite_id = i.data('favorite');
+                    let favorite_id = button.children('i').data('favorite');
                     $.ajax({
                         url:'http://localhost/api/favorite/' + favorite_id,
-                        type:'DELETE',
                         data: {
                             tweet_id: tweet_id,
-                            favorite_id: favorite_id
+                            favorite_id:favorite_id
+                        },
+                        type:'DELETE',
+                        success:function(data){
+                            if(data['result']){
+                                i.removeClass('fas');
+                                i.addClass('far');
+                                i.data('favorite',"");
+                                favorite_count.text(data['favorite_count']);
+                            }else{
+                                console.log('error');
+                            }
                         }
-                    }).done(function(data){
-                        if(data['result']){
-                            i.removeClass('fas');
-                            i.addClass('far');
-                            i.data('favorite','');
-                            i.data('favorite','');
-                            favorite_count.text(data['favorite_count']);
-                        }else{
-                            console.log('error');
-                        }
-                    });
+                    })
 
                 }
-
-
             });
         });
-
     </script>
 
 @endsection
