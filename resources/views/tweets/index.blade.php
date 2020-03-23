@@ -44,7 +44,7 @@
                 let tweet_id = button.data('tweet');
                 if(i.hasClass('far')){
                     $.ajax({
-                        url:'/api/favorite',
+                        url:'api/favorite',
                         data: {
                             tweet_id: tweet_id
                         },
@@ -62,7 +62,7 @@
                 }else{
                     let favorite_id = button.children('i').data('favorite');
                     $.ajax({
-                        url: '/api/favorite/' + favorite_id,
+                        url: 'api/favorite/' + favorite_id,
                         type: 'DELETE',
                     }).done(function(data){
                             if(data['result']){
