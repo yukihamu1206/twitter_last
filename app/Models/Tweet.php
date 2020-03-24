@@ -28,7 +28,7 @@ class Tweet extends Model
      */
     public function getTimeline()
     {
-        $tweets = self::paginate(5);
+        $tweets = self::orderBy('created_at', 'DESC')->paginate(5);
 
         $timeline = [];
         foreach ($tweets as $tweet) {
