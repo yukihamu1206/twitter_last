@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +12,9 @@
 */
 
 
-Route::post('post_tweet','ApiController@postTweet')->middleware('auth:api');
+
+Route::post('tweet','ApiController@store')->middleware('auth:api');
+Route::put('tweet/{tweet}','ApiController@update')->middleware('auth:api');
+Route::delete('tweet/{tweet}','ApiController@destroy')->middleware('auth:api');
 Route::post('favorite','ApiController@favorite');
 Route::delete('favorite/{favorite}','ApiController@deleteFavorite');

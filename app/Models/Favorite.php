@@ -38,6 +38,13 @@ class Favorite extends Model
         return;
     }
 
+
+    /**
+     * いいね削除
+     *
+     * @param  Int  $favorite_id
+     * @return mixed
+     */
     public function deleteFavorite(Int $favorite_id)
     {
         return $this->where('id', $favorite_id)->delete();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tweet;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 
 class TweetsController extends Controller
 {
@@ -40,5 +41,33 @@ class TweetsController extends Controller
         );
 
         return view('tweets.index', ['lists' => $lists]);
+    }
+
+
+    /**
+     * @param  Tweet  $tweet
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
+    public function edit(Tweet $tweet){
+
+        $user = Auth()->user();
+        $tweet_id = $tweet->id;
+        $tweet_exist = $tweet->getEditTweet($user->id, $tweet_id);
+
+        if(!isset($tweet_exist)){
+            return redirect('/');
+        }
+
+        return view('tweets.edit',[
+            'profile_image' => Storage::disk('s3')->url($user->profile_image ? $user->profile_image : 'noimage.jpg'),
+            'name' => $user->name,
+            'screen_name' => $user->screen_name,
+            'api_token' => $user->api_token,
+            'text' => $tweet->text,
+            'created_at' => $tweet->created_at,
+            'tweet_id' => $tweet->id,
+            'favorite_count' => $tweet->favorites->count()
+        ]);
     }
 }

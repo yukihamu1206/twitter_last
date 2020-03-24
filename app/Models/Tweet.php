@@ -49,4 +49,46 @@ class Tweet extends Model
 
         return $timeline;
     }
+
+    /**
+     * 編集するツイートを取得
+     *
+     * @param $user_id
+     * @param $tweet_id
+     * @return bool
+     */
+    public function getEditTweet($user_id, $tweet_id)
+    {
+        return $this->where('user_id', $user_id)->where('id', $tweet_id)->first();
+    }
+
+    /**
+     * ツイートを更新
+     *
+     * @param $user_id
+     * @param $tweet_id
+     */
+    public function updateTweet($user_id, $tweet_id)
+    {
+        $this->user_id = $user_id;
+        $this->id = $tweet_id;
+
+        $this->update();
+
+        return;
+
+    }
+
+
+    /**
+     * ツイートを削除
+     *
+     * @param $user_id
+     * @param $tweet_id
+     * @return mixed
+     */
+    public function deleteTweet($user_id, $tweet_id)
+    {
+        return $this->where('user_id', $user_id)->where('id', $tweet_id)->first()->delete();
+    }
 }

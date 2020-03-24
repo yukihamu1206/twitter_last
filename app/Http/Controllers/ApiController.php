@@ -20,7 +20,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function postTweet(TweetRequest $request)
+    public function store(TweetRequest $request)
     {
 
 
@@ -54,6 +54,65 @@ class ApiController extends Controller
             [],
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+    /**
+     * ツイートを編集
+     *
+     * @param  TweetRequest  $request
+     * @param  Tweet  $tweet
+     * @return JsonResponse
+     */
+    public function update(TweetRequest $request, Tweet $tweet)
+    {
+
+        $tweet->text = $request->text;
+        $tweet->user_id = Auth()->id();
+
+        $validator = $request->getValidator();
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'result' => false,
+                    'errors' => $validator->errors()
+                ],
+                200,
+                [],
+                JSON_UNESCAPED_UNICODE
+            );
+        }
+
+        $tweet->updateTweet($tweet->user_id, $tweet->id);
+
+        return response()->json(
+            [
+                'result' => true
+            ],
+            200,
+            [],
+            JSON_UNESCAPED_UNICODE
+        );
+
+    }
+
+    /**
+     * ツイートを削除
+     *
+     * @param  Tweet  $tweet
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Tweet $tweet)
+    {
+        $user = Auth()->user();
+        $tweet->deleteTweet($user->id, $tweet->id);
+
+        return response()->json([
+            'result' => true
+        ]);
+
+
     }
 
     /**
