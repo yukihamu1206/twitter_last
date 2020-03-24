@@ -21,7 +21,7 @@
                     </div>
                     <div class="card-footer py-1 d-flex justify-content-end bg-white">
                         <div class="d-flex align-items-center">
-                            <i class="far fa-heart fa-fw btn p-0 border-0 text-primary"></i>
+                            <i class="far fa-heart fa-fw p-0 border-0 text-primary"></i>
                             <p class="mb-0 text-secondary">{{ $favorite_count }}</p>
                         </div>
                     </div>
