@@ -21,7 +21,7 @@
                     </div>
                     <div class="card-footer py-1 d-flex justify-content-end bg-white">
                         <div class="d-flex align-items-center">
-                            <i class="far fa-heart fa-fw btn p-0 border-0 text-primary"></i>
+                            <i class="far fa-heart fa-fw p-0 border-0 text-primary"></i>
                             <p class="mb-0 text-secondary">{{ $favorite_count }}</p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <span role="alert">
                                     <strong class="error_message alert-danger"></strong>
                                 </span>
-                                <textarea class="form-control" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
+                                <textarea class="form-control" name="text" required autocomplete="text" rows="4">{{ $text }}</textarea>
                             </div>
                         </div>
 
@@ -190,11 +190,11 @@
                     let tweet_id = $(this).data('tweet');
                     let api_token = "{{ $api_token }}";
                     $.ajax({
-                        url:'http://localhost/api/delete_tweet/' + tweet_id + '?api_token=' + api_token,
+                        url:'/api/tweet/' + tweet_id ,
+                        type:'DELETE',
                         data:{
-                            tweet_id:tweet_id
-                        },
-                        type:'DELETE'
+                            api_token: api_token
+                        }
                     }).done(function(){
                         $('.delete_confirm').css({'display': 'none'});
                         $('.after_delete').css({'display': 'block'});
@@ -211,10 +211,10 @@
                 let tweet_id = $(this).data('tweet');
                 let api_token = "{{ $api_token }}";
                 $.ajax({
-                    url:'http://localhost/api/update_tweet/' + tweet_id + '/?api_token=' + api_token,
+                    url:'/api/tweet/' + tweet_id,
                     data:{
-                        tweet_id:tweet_id,
-                        text:text
+                        text:text,
+                        api_token:api_token
                     },
                     type:'PUT'
                 }).done(function(data){

@@ -51,7 +51,7 @@ class Tweet extends Model
     }
 
     /**
-     * タイムラインに表示するツイートデータを取得
+     * 編集するツイートを取得
      *
      * @param $user_id
      * @param $tweet_id
@@ -68,7 +68,7 @@ class Tweet extends Model
      * @param $user_id
      * @param $tweet_id
      */
-    public function updatetweet($user_id, $tweet_id)
+    public function updateTweet($user_id, $tweet_id)
     {
         $this->user_id = $user_id;
         $this->id = $tweet_id;

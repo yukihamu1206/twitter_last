@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,9 +12,9 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('post_tweet','ApiController@post_tweet')->middleware('auth:api');
-Route::get('get_user','ApiController@get_user');
+
+Route::post('tweet','ApiController@store')->middleware('auth:api');
+Route::put('tweet/{tweet}','ApiController@update')->middleware('auth:api');
+Route::delete('tweet/{tweet}','ApiController@destroy')->middleware('auth:api');
 Route::post('favorite','ApiController@favorite');
-Route::delete('favorite/{favorite}','ApiController@delete_favorite');
-Route::put('update_tweet/{tweet}','ApiController@update_tweet')->middleware('auth:api');
-Route::delete('delete_tweet/{tweet}','ApiController@delete_tweet')->middleware('auth:api');
+Route::delete('favorite/{favorite}','ApiController@deleteFavorite');

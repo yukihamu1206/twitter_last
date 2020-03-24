@@ -44,12 +44,12 @@
                 let tweet_id = button.data('tweet');
                 if(i.hasClass('far')){
                     $.ajax({
-                        url:'http://localhost/api/favorite',
+                        url:'api/favorite',
                         data: {
                             tweet_id: tweet_id
                         },
                         type:'POST',
-                        success:function(data){
+                    }).done(function(data){
                             if(data['result']){
                                 i.removeClass('far');
                                 i.addClass('fas');
@@ -58,18 +58,13 @@
                             }else{
                                 console.log('error');
                             }
-                        }
-                    });
+                        });
                 }else{
                     let favorite_id = button.children('i').data('favorite');
                     $.ajax({
-                        url:'http://localhost/api/favorite/' + favorite_id,
-                        data: {
-                            tweet_id: tweet_id,
-                            favorite_id:favorite_id
-                        },
-                        type:'DELETE',
-                        success:function(data){
+                        url: 'api/favorite/' + favorite_id,
+                        type: 'DELETE',
+                    }).done(function(data){
                             if(data['result']){
                                 i.removeClass('fas');
                                 i.addClass('far');
@@ -78,12 +73,10 @@
                             }else{
                                 console.log('error');
                             }
-                        }
-                    })
-
-                }
+                        });
+                    }
+                });
             });
-        });
     </script>
 
 @endsection
