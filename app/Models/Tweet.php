@@ -91,4 +91,45 @@ class Tweet extends Model
     {
         return $this->where('user_id', $user_id)->where('id', $tweet_id)->first()->delete();
     }
+
+
+    /**
+     * user.showのツイート取得
+     *
+     * @param $user_id
+     * @return mixed
+     */
+    public function getUserTweet($user_id){
+        $tweets = $this->where('user_id',$user_id)->orderBy('created_at', 'DESC')->paginate(5);
+
+        $timelines = [];
+        foreach($tweets as $tweet){
+            $elm = [
+                'id' => $tweet->id,
+                'text' => $tweet->text,
+                'profile_image' => Storage::disk('s3')->url($tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'name' => $tweet->user->name,
+                'screen_name' => $tweet->user->screen_name,
+                'user_id' => $tweet->user->id,
+                'tweet_id' => $tweet->id,
+                'user_favorite' => $tweet->favorites->where('user_id', Auth()->user()->id)->first(),
+                'favorite_count' => $tweet->favorites->count(),
+                'created_at' => $tweet->created_at->format('Y/m/d H:i')
+            ];
+
+            $timelines[] = $elm;
+        }
+
+        return $timelines;
+    }
+
+    /**
+     * ツイート数取得
+     *
+     * @param $user_id
+     * @return mixed
+     */
+    public function getTweetCount($user_id){
+        return $this->where('user_id',$user_id)->count();
+    }
 }
