@@ -38,7 +38,7 @@
                                 <span role="alert">
                                     <strong class="error_message alert-danger"></strong>
                                 </span>
-                                <textarea class="form-control" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
+                                <textarea class="form-control" name="text" required autocomplete="text" rows="4">{{ $text }}</textarea>
                             </div>
                         </div>
 

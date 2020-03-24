@@ -20,7 +20,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function postTweet(TweetRequest $request)
+    public function store(TweetRequest $request)
     {
 
 
