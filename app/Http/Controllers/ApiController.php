@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -179,19 +181,23 @@ class ApiController extends Controller
     /**
      * @param  Request  $request
      * @param  User  $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function userUpdate(Request $request,User $user)
     {
-        Log::debug($request);
-//        $validator = $request->getValidator();
-//        $file = $request->profile_image;
-//        $path = Storage::disk('s3')->Putfile('/',$file,'public');
-//        $user->updateImage($file);
-//        $profile_image = Storage::disk('s3')->url($user->profile_image);
-//        return response()->json([
-//            'profile_image' => $profile_image
-//        ]);
 
+          $data = $request->all();
+          $validator = Validator::make($data, [
+              'screen_name'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
+              'name'          => ['required', 'string', 'max:255'],
+              'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+              'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+          ]);
+
+          $validator->validate();
+          $user->updateProfile($data);
+
+          return redirect('user/'.$user->id);
 
     }
 }

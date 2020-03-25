@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -43,13 +45,38 @@ class User extends Authenticatable
     }
 
     /**
-     * 画像を保存
+     * user情報update
      *
-     * @param $profile_image
+     * @param $data
      */
-    public function updateImage($profile_image)
+    public function updateProfile($data)
     {
-        $this->where('id',$this->id)->update(['profile_image' => $profile_image]);
+        Log::debug($data['profile_image']);
+        if(isset($data['profile_image'])){
+            $file = $data['profile_image']->file('profile_image');
+            dd($file);
+            $path = Storage::disk('s3')->putFile('/'.$file,'public');
+
+        $this->where('id',$this->id)->update([
+            'screen_name' => $data['screen_name'],
+            'name' => $data['name'],
+            'profile_image' => $data['profile_mage']->getClientOriginalName(),
+            'email' => $data['email']
+        ]);
+
+        }else{
+
+            $this->where('id',$this->id)->update([
+                'name' => $data['name'],
+                'screen_name' => $data['screen_name'],
+                'email' => $data['email']
+
+            ]);
+        }
+
         return;
+
+
+
     }
 }

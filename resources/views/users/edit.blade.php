@@ -6,96 +6,81 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <div class="text-center form-group icon-div">
-                            <form class="image-form">
-                            <input type="file" class="upload_image" name="profile_image" style="display:none">
-                            </form>
-                            <button class="rounded-circle profile_image btn" width="100" height="100"><img src="{{ $profile_image }}" class="round-circle" width="100" height="100"></button>
-                            <i class="fas fa-camera"></i>
-                        </div>
-                        <form method="POST" action="{{ route('login') }}">
+{{--                        <div class="text-center form-group icon-div">--}}
+{{--                            <form class="image-form">--}}
+{{--                            <input type="file" class="upload_image" name="profile_image" style="display:none">--}}
+{{--                            </form>--}}
+{{--                            <button class="rounded-circle profile_image btn" width="100" height="100"><img src="{{ $profile_image }}" class="round-circle" width="100" height="100"></button>--}}
+{{--                            <i class="fas fa-camera"></i>--}}
+{{--                        </div>--}}
+                        <form method="POST" action="{{'/api/user/'.$user_id}}" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
+                                <div class="form-group row">
+                                    <label for="Profile Image" class="col-md-4 col-form-label text-md-right">Profile Image</label>
+                                    <input type="file" name="profile_image" class="@error('profile_image') is-invalid @enderror" autocomplete="profile_image" value="{{$profile_image}}">
 
-                            <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">Name</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
+                                    @error('profile_image')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
-                            </div>
 
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Account Name</label>
+                                <div class="form-group row">
+                                    <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                    <div class="col-md-6">
+                                        <input id="name" type="name" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus value="{{$name}}">
 
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                        @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+                                <div class="form-group row">
+                                    <label for="screen_name" class="col-md-4 col-form-label text-md-right">Account Name</label>
 
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                    <div class="col-md-6">
+                                        <input id="screen_name" type="screen_name" class="form-control @error('screen_name') is-invalid @enderror" name="screen_name" value="{{$screen_name}}">
 
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                        @error('screen_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-12 text-center">
-                                    <button class="btn btn-primary submit-button">変更する</button>
+                                <div class="form-group row">
+                                    <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+
+                                    <div class="col-md-6">
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"  required autocomplete="email" autofocus value="{{$email}}">
+
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary submit-button">変更する</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        $(function(){
-            $('.profile_image').click(function(){
-                $('.upload_image').click();
-                return false;
-            });
-
-            $('.upload_image').change(function(){
-                let profile_image = new FormData($('.image_form').get(0));
-                let api_token = "{{ $api_token }}";
-                let user_id = "{{$user_id}}";
-
-                $.ajax({
-                    url:'/api/user/' + user_id,
-                    type:'PUT',
-                    data:{
-                        api_token:api_token,
-                        profile_image:profile_image
-                    },
-                    processData: false,
-                    contentType: false,
-                });
-            });
-        });
-
-    </script>
 
 
-@endsection
+
+    @endsection

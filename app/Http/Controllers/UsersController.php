@@ -50,13 +50,13 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        $profile_image = Storage::disk('s3')->url($user->profile_image ? $user->profile_image : 'noimage.jpg');
-        $api_token = $user->api_token;
-
         return view('users.edit',[
-            'profile_image' => $profile_image,
-            'api_token' => $api_token,
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'screen_name' => $user->screen_name,
+            'name' => $user->name,
+            'email' => $user->email,
+            'profile_image' => $user->profile_image
         ]);
+
     }
 }
