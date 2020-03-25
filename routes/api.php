@@ -18,3 +18,4 @@ Route::put('tweet/{tweet}','ApiController@update')->middleware('auth:api');
 Route::delete('tweet/{tweet}','ApiController@destroy')->middleware('auth:api');
 Route::post('favorite','ApiController@favorite');
 Route::delete('favorite/{favorite}','ApiController@deleteFavorite');
+Route::put('user/{user}','ApiController@userUpdate')->middleware('auth:api');

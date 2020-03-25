@@ -41,4 +41,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tweet::class);
     }
+
+    /**
+     * 画像を保存
+     *
+     * @param $profile_image
+     */
+    public function updateImage($profile_image)
+    {
+        $this->where('id',$this->id)->update(['profile_image' => $profile_image]);
+        return;
+    }
 }

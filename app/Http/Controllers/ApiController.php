@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TweetRequest;
 use App\Models\Favorite;
 use App\Models\Tweet;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class ApiController extends Controller
@@ -171,5 +174,24 @@ class ApiController extends Controller
                 'favorite_count' => $favorite_count
             ]);
         }
+    }
+
+    /**
+     * @param  Request  $request
+     * @param  User  $user
+     */
+    public function userUpdate(Request $request,User $user)
+    {
+        Log::debug($request);
+//        $validator = $request->getValidator();
+//        $file = $request->profile_image;
+//        $path = Storage::disk('s3')->Putfile('/',$file,'public');
+//        $user->updateImage($file);
+//        $profile_image = Storage::disk('s3')->url($user->profile_image);
+//        return response()->json([
+//            'profile_image' => $profile_image
+//        ]);
+
+
     }
 }
