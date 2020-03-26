@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c783363e719cd8dcf2beeb5f3f5fb03c",
+    "content-hash": "24bfba28ea0c5670bc69669961505b33",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -89,75 +89,6 @@
                 "sdk"
             ],
             "time": "2020-03-25T18:15:47+00:00"
-        },
-        {
-            "name": "aws/aws-sdk-php-laravel",
-            "version": "3.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-sdk-php-laravel.git",
-                "reference": "7a3705461c06dc1ce8496fbf9b22ec96f769b3a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php-laravel/zipball/7a3705461c06dc1ce8496fbf9b22ec96f769b3a7",
-                "reference": "7a3705461c06dc1ce8496fbf9b22ec96f769b3a7",
-                "shasum": ""
-            },
-            "require": {
-                "aws/aws-sdk-php": "~3.0",
-                "illuminate/support": "^5.1 || ^6.0 || ^7.0",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0",
-                "vlucas/phpdotenv": "^1.0 || ^2.0 || ^3.0 || ^4.0"
-            },
-            "suggest": {
-                "laravel/framework": "To test the Laravel bindings",
-                "laravel/lumen-framework": "To test the Lumen bindings"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Aws\\Laravel\\AwsServiceProvider"
-                    ],
-                    "aliases": {
-                        "AWS": "Aws\\Laravel\\AwsFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Aws\\Laravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Amazon Web Services",
-                    "homepage": "http://aws.amazon.com"
-                }
-            ],
-            "description": "A simple Laravel 5/6/7 service provider for including the AWS SDK for PHP.",
-            "homepage": "http://aws.amazon.com/sdkforphp2",
-            "keywords": [
-                "amazon",
-                "aws",
-                "dynamodb",
-                "ec2",
-                "laravel",
-                "laravel 5",
-                "laravel 6",
-                "laravel 7",
-                "s3",
-                "sdk"
-            ],
-            "time": "2020-03-11T19:35:23+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

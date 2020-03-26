@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 
+
 class TweetsController extends Controller
 {
     /**
@@ -45,7 +46,7 @@ class TweetsController extends Controller
 
 
     /**
-     * ツイート編集
+     * ついーと編集
      *
      * @param  Tweet  $tweet
      *
