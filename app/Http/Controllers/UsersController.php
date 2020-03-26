@@ -11,7 +11,7 @@ use Aws\S3\S3Client;
 
 use Aws\Exception\AwsException;
 
-require 'vendor/autoload.php';
+
 
 
 class UsersController extends Controller
@@ -35,43 +35,21 @@ class UsersController extends Controller
         $tweet_count = $tweet->getTweetCount($user->id);
 
 //        create a S3Client
-        $s3 = new Aws\S3\S3Client([
+
+
+        $s3 = new S3Client([
             'profile' => 'default',
             'version' => 'latest',
-            'region' => config('region')
+            'region' => config('app.region')
 
         ]);
 
+        $profile_image = $s3->putObject([
+            'Bucket' => config('app.bucket'),
+            'Key' => $user->profile_image->getClientOriginalName(),
+        ]);
 
-
-
-
-
-
-
-//        $s3 = App::make('aws')->createClient('s3');
-//        $key = $user->profile_image ? $user->profile_image : 'noimage.jpg';
-//        $bucket = env('AWS_BUCKET');
-//
-//        $profile_image = $s3->getObjectUrl($bucket, $key);
-//
-//        $lists = new LengthAwarePaginator(
-//            $lists,
-//            count(Tweet::all()),
-//            5,
-//            $request->page,
-//            array('path' => $request->url())
-//        );
-//
-//        return view('users.show', [
-//            'user' => $user,
-//            'name' => $user->name,
-//            'screen_name' => $user->screen_name,
-//            'profile_image' => $profile_image,
-//            'login_user' => $login_user,
-//            'tweet_count' => $tweet_count,
-//            'lists' => $lists
-//        ]);
+        dd($profile_image);
 
     }
 
