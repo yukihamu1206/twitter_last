@@ -59,7 +59,7 @@ class TweetsController extends Controller
         $tweet_exist = $tweet->getEditTweet($user->id, $tweet_id);
 
         $s3 = App::make('aws')->createClient('s3');
-        $profile_image = $s3->getObjectUrl(env('AWS_BUCKET'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
+        $profile_image = $s3->getObjectUrl(config('app.bucket'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
 
         if (!isset($tweet_exist)) {
             return redirect('/');

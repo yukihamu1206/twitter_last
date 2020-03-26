@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Tweet;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
@@ -30,7 +31,7 @@ class UsersController extends Controller
         $tweet_count = $tweet->getTweetCount($user->id);
         $s3 = App::make('aws')->createClient('s3');
         $key = $user->profile_image ? $user->profile_image : 'noimage.jpg';
-        $bucket = env('AWS_BUCKET');
+        $bucket = config('app.bucket');
 
         $profile_image = $s3->getObjectUrl($bucket, $key);
 
@@ -70,6 +71,22 @@ class UsersController extends Controller
             'email' => $user->email,
             'profile_image' => $user->profile_image
         ]);
+
+    }
+
+/**
+* @param  UserRequest  $request
+* @param  User  $user
+* @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+*/
+    public function update(UserRequest $request,User $user)
+    {
+        $data = $request->all();
+
+
+        $user->updateProfile($data);
+
+        return redirect('user/'.$user->id);
 
     }
 }

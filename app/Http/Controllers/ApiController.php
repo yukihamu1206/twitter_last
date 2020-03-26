@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TweetRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Favorite;
 use App\Models\Tweet;
 use App\Models\User;
@@ -177,29 +178,4 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * @param  Request  $request
-     * @param  User  $user
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function userUpdate(Request $request,User $user)
-    {
-
-          $data = $request->all();
-          $validator = Validator::make($data, [
-              'screen_name'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
-              'name'          => ['required', 'string', 'max:255'],
-              'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-              'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
-          ]);
-
-          $validator->validate();
-
-
-          $user->updateProfile($data);
-
-
-          return redirect('user/'.$user->id);
-
-    }
 }
