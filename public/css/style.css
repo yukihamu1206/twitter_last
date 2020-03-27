@@ -1,0 +1,19 @@
+.icon-div {
+    position: relative;
+    opacity:0.9;
+
+}
+
+.fa-camera {/*aタグを画像の真ん中に*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    /*以下装飾*/
+    margin:0;/*余計な隙間を除く*/
+    font-size: 40px;/*文字サイズ*/
+    padding: 7px;/*文字と線の間の余白*/
+    text-decoration: none;/*下線を表示させない*/
+}
