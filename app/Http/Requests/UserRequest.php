@@ -33,20 +33,4 @@ class UserRequest extends FormRequest
         ];
     }
 
-    /**
-     * エラーメッセージ
-     */
-    public function messages()
-    {
-        return [
-            'screen_name.required' => '入力してね',
-            'screen_mame.max' => '50字以内にしてね',
-            'screen_name.unique' => 'もう使われてるよ',
-            'name.required' => '入力してね',
-            'mame.max' => '255字以内にしてね',
-            'name.unique' => 'もう使われてるよ',
-            'email.required' => '入力してね',
-            'email.unique' => 'もう使われてるよ'
-        ];
-    }
 }

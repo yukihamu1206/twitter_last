@@ -40,16 +40,6 @@ class TweetRequest extends FormRequest
     {
     }
 
-    /**
-     * エラーメッセージ
-     */
-    public function messages()
-    {
-        return [
-            'text.required' => '本文を入力してね',
-            'text.max' => '140字以内にしてね',
-        ];
-    }
 
     /**
      * validatorを取得するメソッド
