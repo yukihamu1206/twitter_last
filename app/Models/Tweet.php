@@ -121,7 +121,7 @@ class Tweet extends Model
                 'profile_image' => $s3->getObjectUrl( config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
-                'user_id' => $tweet->user->id,
+                'user_id' => $tweet->user->id擬t,
                 'tweet_id' => $tweet->id,
                 'user_favorite' => $tweet->favorites->where('user_id', Auth()->user()->id)->first(),
                 'favorite_count' => $tweet->favorites->count(),
