@@ -73,6 +73,52 @@
             {{ $lists->links() }}
         </div>
     </div>
+
+    <script>
+
+        $(function(){
+            $('.submit_button').click(function(){
+                let button = $(this);
+                let i = $(this).children('i');
+                let favorite_count = button.parent().find('p');
+                let tweet_id = button.data('tweet');
+                if(i.hasClass('far')){
+                    $.ajax({
+                        url:'/api/favorite',
+                        data: {
+                            tweet_id: tweet_id
+                        },
+                        type:'POST',
+                    }).done(function(data){
+                        if(data['result']){
+                            i.removeClass('far');
+                            i.addClass('fas');
+                            i.data('favorite',data['user_favorite_id']);
+                            favorite_count.text(data['favorite_count']);
+                        }else{
+                            console.log('error');
+                        }
+                    });
+                }else{
+                    let favorite_id = button.children('i').data('favorite');
+                    $.ajax({
+                        url: '/api/favorite/' + favorite_id,
+                        type: 'DELETE',
+                    }).done(function(data){
+                        if(data['result']){
+                            i.removeClass('fas');
+                            i.addClass('far');
+                            i.data('favorite',"");
+                            favorite_count.text(data['favorite_count']);
+                        }else{
+                            console.log('error');
+                        }
+                    });
+                 }
+            });
+        });
+    </script>
+
 @endsection
 
 
