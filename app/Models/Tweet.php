@@ -103,14 +103,14 @@ class Tweet extends Model
      */
     public function getUserTweet($user_id){
         $tweets = $this->where('user_id',$user_id)->orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = App::make('aws')->createClient('s3');
+//        $s3 = App::make('aws')->createClient('s3');
 
         $timelines = [];
         foreach($tweets as $tweet){
             $elm = [
                 'id' => $tweet->id,
                 'text' => $tweet->text,
-                'profile_image' => $s3->getObjectUrl(env('AWS_BUCKET'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+//                'profile_image' => $s3->getObjectUrl(env('AWS_BUCKET'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,

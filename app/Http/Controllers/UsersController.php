@@ -5,13 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tweet;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\App;
 use Aws\S3\S3Client;
-use Aws\Credentials\CredentialProvider;
-use Aws\Exception\AwsException;
-
-
 
 
 class UsersController extends Controller
@@ -36,11 +30,6 @@ class UsersController extends Controller
 
 //        create a S3Client
         $s3 = new S3Client([
-            'credentials' => [
-                'key'       => env('ACCESS_KEY'),
-                'secret'    => env('SECRET_ACCESS_KEY'),
-                ],
-            'profile' => 'default',
             'version' => 'latest',
             'region' => config('app.region'),
         ]);
@@ -50,7 +39,19 @@ class UsersController extends Controller
             'Key' => $user->profile_image,
         ]);
 
-        dd($profile_image);
+        return view('users.show',[
+            'login_user' => $login_user,
+            'name' => $user->name,
+            'screen_name' => $user->screen_name,
+            'user_id' => $user->id,
+            'lists' => $lists,
+            'tweet_count' => $tweet_count,
+            'profile_image' => $profile_image
+        ]);
+
+
+
+
 
     }
 

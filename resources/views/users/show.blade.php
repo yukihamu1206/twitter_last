@@ -16,8 +16,8 @@
                         <div class="p-3 d-flex flex-column justify-content-between">
                             <div class="d-flex">
                                 <div>
-                                    @if ($user->id === $login_user->id)
-                                        <a href="{{url('user/'.$user->id.'/edit')}}" class="btn btn-primary">プロフィールを編集する</a>
+                                    @if ($user_id === $login_user->id)
+                                        <a href="{{url('user/'.$user_id.'/edit')}}" class="btn btn-primary">プロフィールを編集する</a>
                                     @endif
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                     <div class="col-md-8 mb-3">
                         <div class="card">
                             <div class="card-haeder p-3 w-100 d-flex">
-                                <img src="{{ $list['profile_image'] }}" class="rounded-circle" width="50" height="50">
+{{--                                <img src="{{ $list['profile_image'] }}" class="rounded-circle" width="50" height="50">--}}
                                 <div class="ml-2 d-flex flex-column flex-grow-1">
                                     <p class="mb-0">{{ $list['name'] }}</p>
                                     <a href="{{ url('users/' .$list['user_id']) }}" class="text-secondary">{{ $list['screen_name'] }}</a>
@@ -74,50 +74,50 @@
         </div>
     </div>
 
-    <script>
+{{--    <script>--}}
 
-        $(function(){
-            $('.submit_button').click(function(){
-                let button = $(this);
-                let i = $(this).children('i');
-                let favorite_count = button.parent().find('p');
-                let tweet_id = button.data('tweet');
-                if(i.hasClass('far')){
-                    $.ajax({
-                        url:'/api/favorite',
-                        data: {
-                            tweet_id: tweet_id
-                        },
-                        type:'POST',
-                    }).done(function(data){
-                        if(data['result']){
-                            i.removeClass('far');
-                            i.addClass('fas');
-                            i.data('favorite',data['user_favorite_id']);
-                            favorite_count.text(data['favorite_count']);
-                        }else{
-                            console.log('error');
-                        }
-                    });
-                }else{
-                    let favorite_id = button.children('i').data('favorite');
-                    $.ajax({
-                        url: '/api/favorite/' + favorite_id,
-                        type: 'DELETE',
-                    }).done(function(data){
-                        if(data['result']){
-                            i.removeClass('fas');
-                            i.addClass('far');
-                            i.data('favorite',"");
-                            favorite_count.text(data['favorite_count']);
-                        }else{
-                            console.log('error');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+{{--        $(function(){--}}
+{{--            $('.submit_button').click(function(){--}}
+{{--                let button = $(this);--}}
+{{--                let i = $(this).children('i');--}}
+{{--                let favorite_count = button.parent().find('p');--}}
+{{--                let tweet_id = button.data('tweet');--}}
+{{--                if(i.hasClass('far')){--}}
+{{--                    $.ajax({--}}
+{{--                        url:'/api/favorite',--}}
+{{--                        data: {--}}
+{{--                            tweet_id: tweet_id--}}
+{{--                        },--}}
+{{--                        type:'POST',--}}
+{{--                    }).done(function(data){--}}
+{{--                        if(data['result']){--}}
+{{--                            i.removeClass('far');--}}
+{{--                            i.addClass('fas');--}}
+{{--                            i.data('favorite',data['user_favorite_id']);--}}
+{{--                            favorite_count.text(data['favorite_count']);--}}
+{{--                        }else{--}}
+{{--                            console.log('error');--}}
+{{--                        }--}}
+{{--                    });--}}
+{{--                }else{--}}
+{{--                    let favorite_id = button.children('i').data('favorite');--}}
+{{--                    $.ajax({--}}
+{{--                        url: '/api/favorite/' + favorite_id,--}}
+{{--                        type: 'DELETE',--}}
+{{--                    }).done(function(data){--}}
+{{--                        if(data['result']){--}}
+{{--                            i.removeClass('fas');--}}
+{{--                            i.addClass('far');--}}
+{{--                            i.data('favorite',"");--}}
+{{--                            favorite_count.text(data['favorite_count']);--}}
+{{--                        }else{--}}
+{{--                            console.log('error');--}}
+{{--                        }--}}
+{{--                    });--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 
 @endsection
 
