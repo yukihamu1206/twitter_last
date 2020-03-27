@@ -18,7 +18,10 @@ yarn-error.log
 .idea/**/shelf
 .idea/**/dataSources.local.xml
 .idea/**/dataSources.xml
+.idea/dataSources
+.ieda/php.xml
 .idea/**/vcs.xml
+
 
 /storage/debugbar
 
