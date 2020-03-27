@@ -60,17 +60,21 @@ class UsersController extends Controller
      * ユーザー情報編集
      *
      * @param  User  $user
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(User $user)
     {
-        return view('users.edit', [
-            'user_id' => $user->id,
-            'screen_name' => $user->screen_name,
-            'name' => $user->name,
-            'email' => $user->email,
-            'profile_image' => $user->profile_image
-        ]);
+        if($user->id === Auth()->id()) {
+            return view('users.edit', [
+                'user_id' => $user->id,
+                'screen_name' => $user->screen_name,
+                'name' => $user->name,
+                'email' => $user->email,
+                'profile_image' => $user->profile_image
+            ]);
+        }else{
+            return redirect('/');
+        }
 
     }
 
