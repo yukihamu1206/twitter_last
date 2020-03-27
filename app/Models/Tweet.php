@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use Aws\S3\S3Client;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
+
 
 
 class Tweet extends Model
@@ -30,14 +31,18 @@ class Tweet extends Model
     public function getTimeline()
     {
         $tweets = self::orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = App::make('aws')->createClient('s3');
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => config('app.region'),
+        ]);
+
 
         $timeline = [];
         foreach ($tweets as $tweet) {
             $elm = [
                 'text' => $tweet->text,
                 'created_at' => $tweet->created_at->format('Y/m/d H:i'),
-                'profile_image' => $s3->getObjectUrl(env('AWS_BUCKET'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'profile_image' => $s3->getObjectUrl(config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
@@ -103,14 +108,17 @@ class Tweet extends Model
      */
     public function getUserTweet($user_id){
         $tweets = $this->where('user_id',$user_id)->orderBy('created_at', 'DESC')->paginate(5);
-//        $s3 = App::make('aws')->createClient('s3');
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => config('app.region'),
+        ]);
 
         $timelines = [];
         foreach($tweets as $tweet){
             $elm = [
                 'id' => $tweet->id,
                 'text' => $tweet->text,
-//                'profile_image' => $s3->getObjectUrl(env('AWS_BUCKET'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'profile_image' => $s3->getObjectUrl( config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,

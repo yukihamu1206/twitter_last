@@ -6,6 +6,7 @@ use App\Models\Tweet;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class UsersController extends Controller
@@ -34,10 +35,20 @@ class UsersController extends Controller
             'region' => config('app.region'),
         ]);
 
-        $profile_image = $s3->getObject([
-            'Bucket' => config('app.bucket'),
-            'Key' => $user->profile_image,
-        ]);
+        $profile_image = $s3->getObjectUrl(
+            config('app.bucket'),
+            $user->profile_image,
+        );
+
+
+
+        $lists = new LengthAwarePaginator(
+            $lists,
+            count(Tweet::all()),
+            5,
+            $request->page,
+            array('path' => $request->url())
+        );
 
         return view('users.show',[
             'login_user' => $login_user,
