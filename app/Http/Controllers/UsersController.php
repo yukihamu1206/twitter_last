@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Aws\S3\S3Client;
-
+use Aws\Credentials\CredentialProvider;
 use Aws\Exception\AwsException;
 
 
@@ -35,18 +35,19 @@ class UsersController extends Controller
         $tweet_count = $tweet->getTweetCount($user->id);
 
 //        create a S3Client
-
-
         $s3 = new S3Client([
+            'credentials' => [
+                'key'       => env('ACCESS_KEY'),
+                'secret'    => env('SECRET_ACCESS_KEY'),
+                ],
             'profile' => 'default',
             'version' => 'latest',
-            'region' => config('app.region')
-
+            'region' => config('app.region'),
         ]);
 
-        $profile_image = $s3->putObject([
+        $profile_image = $s3->getObject([
             'Bucket' => config('app.bucket'),
-            'Key' => $user->profile_image->getClientOriginalName(),
+            'Key' => $user->profile_image,
         ]);
 
         dd($profile_image);
