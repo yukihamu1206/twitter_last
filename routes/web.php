@@ -17,9 +17,11 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    route::get('tweet', 'TweetsController@create')->name('tweets.create');
+    Route::get('tweet', 'TweetsController@create')->name('tweets.create');
     Route::get('/','TweetsController@index')->name('tweets.index');
     Route::get('tweet/{tweet}/edit','TweetsController@edit')->name('tweets.edit');
     Route::get('user/{user}','UsersController@show');
+    Route::get('user/{user}/edit','UsersController@edit');
+    Route::put('user/{user}','UsersController@update');
 });
 

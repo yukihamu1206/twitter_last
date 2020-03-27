@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\App;
+
 
 class User extends Authenticatable
 {
@@ -40,5 +41,46 @@ class User extends Authenticatable
     public function tweets()
     {
         return $this->hasMany(Tweet::class);
+    }
+
+    /**
+     * user情報update
+     *
+     * @param $data
+     */
+    public function updateProfile($data)
+    {
+        if(isset($data['profile_image'])){
+
+            $file = $data['profile_image']->getClientOriginalName();
+
+            $s3 = App::make('aws')->createClient('s3');
+            $s3->putObject(array(
+                'Bucket' => config('app.bucket'),
+                'Key' => $file,
+                'SourceFile' => $data['profile_image'],
+            ));
+
+
+        $this->where('id',$this->id)->update([
+            'screen_name' => $data['screen_name'],
+            'name' => $data['name'],
+            'profile_image' => $data['profile_image']->getClientOriginalName(),
+            'email' => $data['email']
+        ]);
+
+        }else{
+
+            $this->where('id',$this->id)->update([
+                'name' => $data['name'],
+                'screen_name' => $data['screen_name'],
+                'email' => $data['email']
+            ]);
+        }
+
+        return;
+
+
+
     }
 }
