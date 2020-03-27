@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Tweet;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -41,7 +42,6 @@ class UsersController extends Controller
         );
 
 
-
         $lists = new LengthAwarePaginator(
             $lists,
             count(Tweet::all()),
@@ -71,17 +71,37 @@ class UsersController extends Controller
      * ユーザー情報編集
      *
      * @param  User  $user
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function edit(User $user)
     {
-        return view('users.edit', [
-            'user_id' => $user->id,
-            'screen_name' => $user->screen_name,
-            'name' => $user->name,
-            'email' => $user->email,
-            'profile_image' => $user->profile_image
-        ]);
+        if($user->id === Auth()->id()) {
+            return view('users.edit', [
+                'user_id' => $user->id,
+                'screen_name' => $user->screen_name,
+                'name' => $user->name,
+                'email' => $user->email,
+                'profile_image' => $user->profile_image
+            ]);
+        }else{
+            return redirect('/');
+        }
+
+    }
+
+/**
+* @param  UserRequest  $request
+* @param  User  $user
+* @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+*/
+    public function update(UserRequest $request,User $user)
+    {
+        $data = $request->all();
+
+
+        $user->updateProfile($data);
+
+        return redirect('user/'.$user->id);
 
     }
 }

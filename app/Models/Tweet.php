@@ -118,6 +118,7 @@ class Tweet extends Model
             $elm = [
                 'id' => $tweet->id,
                 'text' => $tweet->text,
+
                 'profile_image' => $s3->getObjectUrl( config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,

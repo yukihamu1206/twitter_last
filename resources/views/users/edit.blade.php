@@ -13,7 +13,7 @@
 {{--                            <button class="rounded-circle profile_image btn" width="100" height="100"><img src="{{ $profile_image }}" class="round-circle" width="100" height="100"></button>--}}
 {{--                            <i class="fas fa-camera"></i>--}}
 {{--                        </div>--}}
-                        <form method="POST" action="{{'/api/user/'.$user_id}}" enctype="multipart/form-data">
+                        <form method="POST" action="{{'/user/'.$user_id}}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                                 <div class="form-group row">
@@ -80,7 +80,5 @@
                 </div>
             </div>
         </div>
-
-
 
     @endsection

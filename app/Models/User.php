@@ -56,7 +56,7 @@ class User extends Authenticatable
 
             $s3 = App::make('aws')->createClient('s3');
             $s3->putObject(array(
-                'Bucket' => env('AWS_BUCKET'),
+                'Bucket' => config('app.bucket'),
                 'Key' => $file,
                 'SourceFile' => $data['profile_image'],
             ));

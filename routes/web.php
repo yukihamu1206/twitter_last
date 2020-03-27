@@ -22,5 +22,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tweet/{tweet}/edit','TweetsController@edit')->name('tweets.edit');
     Route::get('user/{user}','UsersController@show');
     Route::get('user/{user}/edit','UsersController@edit');
+    Route::put('user/{user}','UsersController@update');
 });
 
