@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SdkService;
 use App\Http\Requests\UserRequest;
 use App\Models\Tweet;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Aws\S3\S3Client;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -31,10 +31,7 @@ class UsersController extends Controller
         $tweet_count = $tweet->getTweetCount($user->id);
 
 //        create a S3Client
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('app.region'),
-        ]);
+        $s3 = SdkService::sdkFunc();
 
         $profile_image = $s3->getObjectUrl(
             config('app.bucket'),

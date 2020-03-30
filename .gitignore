@@ -13,16 +13,7 @@ npm-debug.log
 yarn-error.log
 
 .idea/
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-.idea/**/dataSources.local.xml
-.idea/**/dataSources.xml
-.idea/dataSources
-.ieda/php.xml
-.idea/**/vcs.xml
+
 
 
 /storage/debugbar

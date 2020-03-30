@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
-use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\App;
+use App\Services\SdkService;
 
 
 class TweetsController extends Controller
@@ -61,10 +60,7 @@ class TweetsController extends Controller
         $tweet_exist = $tweet->getEditTweet($user->id, $tweet_id);
 
 
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('app.region'),
-        ]);
+        $s3 = SdkService::sdkFunc();
 
         $profile_image = $s3->getObjectUrl(config('app.bucket'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
 

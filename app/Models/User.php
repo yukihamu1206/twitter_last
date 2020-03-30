@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\SdkService;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\App;
 
 
 class User extends Authenticatable
@@ -52,15 +52,14 @@ class User extends Authenticatable
     {
         if(isset($data['profile_image'])){
 
-            $file = $data['profile_image']->getClientOriginalName();
+            $file = $data['profile_image'];
 
-            $s3 = App::make('aws')->createClient('s3');
-            $s3->putObject(array(
-                'Bucket' => config('app.bucket'),
-                'Key' => $file,
-                'SourceFile' => $data['profile_image'],
-            ));
+            $s3 = SdkService::sdkFunc();
 
+            $profile_image = $s3->putObject(
+                config('app.bucket'),
+                $file,
+        );
 
         $this->where('id',$this->id)->update([
             'screen_name' => $data['screen_name'],

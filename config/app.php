@@ -2,17 +2,17 @@
 
 return [
 
-    'region' => env('AWS_REGION'),
-
-
     /*
     |--------------------------------------------------------------------------
-    | Bucket Name
+    | aws
     |--------------------------------------------------------------------------
 
     */
 
+    'region' => env('AWS_REGION'),
     'bucket' => env('AWS_BUCKET'),
+    'access_key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
 
 
     /*
@@ -240,6 +240,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
 
     ],
 

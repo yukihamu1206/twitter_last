@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Aws\S3\S3Client;
+use App\Services\SdkService;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -31,11 +31,7 @@ class Tweet extends Model
     public function getTimeline()
     {
         $tweets = self::orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('app.region'),
-        ]);
-
+        $s3 = SdkService::sdkFunc();
 
         $timeline = [];
         foreach ($tweets as $tweet) {
@@ -108,10 +104,7 @@ class Tweet extends Model
      */
     public function getUserTweet($user_id){
         $tweets = $this->where('user_id',$user_id)->orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('app.region'),
-        ]);
+        $s3 = SdkService::sdkFunc();
 
         $timelines = [];
         foreach($tweets as $tweet){
