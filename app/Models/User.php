@@ -56,10 +56,11 @@ class User extends Authenticatable
 
             $s3 = SdkService::sdkFunc();
 
-            $profile_image = $s3->putObject(
-                config('app.bucket'),
-                $file,
-        );
+            $profile_image = $s3->putObject([
+                'Bucket' => config('app.aws')['bucket'],
+                'SourceFile' => $file,
+                'Key' =>  $data['profile_image']->getClientOriginalName(),
+        ]);
 
         $this->where('id',$this->id)->update([
             'screen_name' => $data['screen_name'],

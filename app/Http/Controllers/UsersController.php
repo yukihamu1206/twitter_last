@@ -34,14 +34,14 @@ class UsersController extends Controller
         $s3 = SdkService::sdkFunc();
 
         $profile_image = $s3->getObjectUrl(
-            config('app.bucket'),
+            config('app.aws')['bucket'],
             $user->profile_image,
         );
 
 
         $lists = new LengthAwarePaginator(
             $lists,
-            count(Tweet::all()),
+            $tweet_count,
             5,
             $request->page,
             array('path' => $request->url())
