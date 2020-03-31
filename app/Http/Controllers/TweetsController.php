@@ -62,7 +62,7 @@ class TweetsController extends Controller
 
         $s3 = SdkService::sdkFunc();
 
-        $profile_image = $s3->getObjectUrl(config('app.aws')['bucket'],$user->profile_image ? $user->profile_image : 'noimage.jpg');
+        $profile_image = $s3->getObjectUrl(config('app.aws.bucket'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
 
         if (!isset($tweet_exist)) {
             return redirect('/');

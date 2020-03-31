@@ -38,7 +38,7 @@ class Tweet extends Model
             $elm = [
                 'text' => $tweet->text,
                 'created_at' => $tweet->created_at->format('Y/m/d H:i'),
-                'profile_image' => $s3->getObjectUrl(config('app.aws')['bucket'],$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'profile_image' => $s3->getObjectUrl(config('app.aws.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
@@ -112,7 +112,7 @@ class Tweet extends Model
                 'id' => $tweet->id,
                 'text' => $tweet->text,
 
-                'profile_image' => $s3->getObjectUrl( config('app.aws')['bucket'],$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'profile_image' => $s3->getObjectUrl( config('app.aws.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,

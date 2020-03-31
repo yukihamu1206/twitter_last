@@ -10,11 +10,11 @@ public static function sdkFunc()
 {
     $s3 = new S3Client([
         'credentials' => [
-            'key'       => config('app.aws')['access_key'],
-            'secret'    => config('app.aws')['secret'],
+            'key'       => config('app.aws.access_key'),
+            'secret'    => config('app.aws.secret'),
         ],
         'version' => 'latest',
-        'region' => config('app.aws')['region'],
+        'region' => config('app.aws.region'),
 
     ]);
 

@@ -34,7 +34,7 @@ class UsersController extends Controller
         $s3 = SdkService::sdkFunc();
 
         $profile_image = $s3->getObjectUrl(
-            config('app.aws')['bucket'],
+            config('app.aws.bucket'),
             $user->profile_image,
         );
 
