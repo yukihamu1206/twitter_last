@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Services\SdkService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Services\SdkService;
 
 
 class TweetsController extends Controller
@@ -62,7 +62,8 @@ class TweetsController extends Controller
 
         $s3 = SdkService::sdkFunc();
 
-        $profile_image = $s3->getObjectUrl(config('app.aws.bucket'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
+        $profile_image = $s3->getObjectUrl(config('app.aws.bucket'),
+            $user->profile_image ? $user->profile_image : 'noimage.jpg');
 
         if (!isset($tweet_exist)) {
             return redirect('/');

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Services\SdkService;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 
 class User extends Authenticatable
@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','screen_name','profile_image','api_token'
+        'name', 'email', 'password', 'screen_name', 'profile_image', 'api_token'
     ];
 
     /**
@@ -50,28 +50,28 @@ class User extends Authenticatable
      */
     public function updateProfile($data)
     {
-        if(isset($data['profile_image'])){
+        if (isset($data['profile_image'])) {
 
             $file = $data['profile_image'];
 
             $s3 = SdkService::sdkFunc();
 
-            $profile_image = $s3->putObject([
+            $s3->putObject([
                 'Bucket' => config('app.aws.bucket'),
                 'SourceFile' => $file,
-                'Key' =>  $data['profile_image']->getClientOriginalName(),
-        ]);
+                'Key' => $data['profile_image']->getClientOriginalName(),
+            ]);
 
-        $this->where('id',$this->id)->update([
-            'screen_name' => $data['screen_name'],
-            'name' => $data['name'],
-            'profile_image' => $data['profile_image']->getClientOriginalName(),
-            'email' => $data['email']
-        ]);
+            $this->where('id', $this->id)->update([
+                'screen_name' => $data['screen_name'],
+                'name' => $data['name'],
+                'profile_image' => $data['profile_image']->getClientOriginalName(),
+                'email' => $data['email']
+            ]);
 
-        }else{
+        } else {
 
-            $this->where('id',$this->id)->update([
+            $this->where('id', $this->id)->update([
                 'name' => $data['name'],
                 'screen_name' => $data['screen_name'],
                 'email' => $data['email']
@@ -79,7 +79,6 @@ class User extends Authenticatable
         }
 
         return;
-
 
 
     }

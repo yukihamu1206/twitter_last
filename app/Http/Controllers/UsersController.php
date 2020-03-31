@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SdkService;
 use App\Http\Requests\UserRequest;
 use App\Models\Tweet;
 use App\Models\User;
+use App\Services\SdkService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -47,7 +47,7 @@ class UsersController extends Controller
             array('path' => $request->url())
         );
 
-        return view('users.show',[
+        return view('users.show', [
             'login_user' => $login_user,
             'name' => $user->name,
             'screen_name' => $user->screen_name,
@@ -56,9 +56,6 @@ class UsersController extends Controller
             'tweet_count' => $tweet_count,
             'profile_image' => $profile_image
         ]);
-
-
-
 
 
     }
@@ -72,7 +69,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        if($user->id === Auth()->id()) {
+        if ($user->id === Auth()->id()) {
             return view('users.edit', [
                 'user_id' => $user->id,
                 'screen_name' => $user->screen_name,
@@ -80,18 +77,18 @@ class UsersController extends Controller
                 'email' => $user->email,
                 'profile_image' => $user->profile_image
             ]);
-        }else{
+        } else {
             return redirect('/');
         }
 
     }
 
-/**
-* @param  UserRequest  $request
-* @param  User  $user
-* @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-*/
-    public function update(UserRequest $request,User $user)
+    /**
+     * @param  UserRequest  $request
+     * @param  User  $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(UserRequest $request, User $user)
     {
         $data = $request->all();
 
