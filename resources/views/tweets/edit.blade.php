@@ -143,7 +143,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-12 text-center">
-                                <a href="#" class="btn btn-primary submit-button">プロフィールへ</a>
+                                <a href="{{ url('user/'.$user_id) }}" class="btn btn-primary submit-button">プロフィールへ</a>
                             </div>
                         </div>
                     </div>

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\SdkService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
 
 
 class Tweet extends Model
@@ -30,14 +30,15 @@ class Tweet extends Model
     public function getTimeline()
     {
         $tweets = self::orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = App::make('aws')->createClient('s3');
+        $s3 = SdkService::sdkFunc();
 
         $timeline = [];
         foreach ($tweets as $tweet) {
             $elm = [
                 'text' => $tweet->text,
                 'created_at' => $tweet->created_at->format('Y/m/d H:i'),
-                'profile_image' => $s3->getObjectUrl(config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+                'profile_image' => $s3->getObjectUrl(config('app.aws.bucket'),
+                    $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
@@ -101,16 +102,19 @@ class Tweet extends Model
      * @param $user_id
      * @return mixed
      */
-    public function getUserTweet($user_id){
-        $tweets = $this->where('user_id',$user_id)->orderBy('created_at', 'DESC')->paginate(5);
-        $s3 = App::make('aws')->createClient('s3');
+    public function getUserTweet($user_id)
+    {
+        $tweets = $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(5);
+        $s3 = SdkService::sdkFunc();
 
         $timelines = [];
-        foreach($tweets as $tweet){
+        foreach ($tweets as $tweet) {
             $elm = [
                 'id' => $tweet->id,
                 'text' => $tweet->text,
-                'profile_image' => $s3->getObjectUrl(config('app.bucket'),$tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
+
+                'profile_image' => $s3->getObjectUrl(config('app.aws.bucket'),
+                    $tweet->user->profile_image ? $tweet->user->profile_image : 'noimage.jpg'),
                 'name' => $tweet->user->name,
                 'screen_name' => $tweet->user->screen_name,
                 'user_id' => $tweet->user->id,
@@ -132,7 +136,8 @@ class Tweet extends Model
      * @param $user_id
      * @return mixed
      */
-    public function getTweetCount($user_id){
-        return $this->where('user_id',$user_id)->count();
+    public function getTweetCount($user_id)
+    {
+        return $this->where('user_id', $user_id)->count();
     }
 }

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\Tweet;
 use App\Models\User;
+use App\Services\SdkService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\App;
 
 
 class UsersController extends Controller
@@ -29,29 +29,34 @@ class UsersController extends Controller
         $login_user = Auth()->user();
         $lists = $tweet->getUserTweet($user->id);
         $tweet_count = $tweet->getTweetCount($user->id);
-        $s3 = App::make('aws')->createClient('s3');
-        $key = $user->profile_image ? $user->profile_image : 'noimage.jpg';
-        $bucket = config('app.bucket');
 
-        $profile_image = $s3->getObjectUrl($bucket, $key);
+//        create a S3Client
+        $s3 = SdkService::sdkFunc();
+
+        $profile_image = $s3->getObjectUrl(
+            config('app.aws.bucket'),
+            $user->profile_image,
+        );
+
 
         $lists = new LengthAwarePaginator(
             $lists,
-            count(Tweet::all()),
+            $tweet_count,
             5,
             $request->page,
             array('path' => $request->url())
         );
 
         return view('users.show', [
-            'user' => $user,
+            'login_user' => $login_user,
             'name' => $user->name,
             'screen_name' => $user->screen_name,
-            'profile_image' => $profile_image,
-            'login_user' => $login_user,
+            'user_id' => $user->id,
+            'lists' => $lists,
             'tweet_count' => $tweet_count,
-            'lists' => $lists
+            'profile_image' => $profile_image
         ]);
+
 
     }
 
@@ -64,7 +69,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        if($user->id === Auth()->id()) {
+        if ($user->id === Auth()->id()) {
             return view('users.edit', [
                 'user_id' => $user->id,
                 'screen_name' => $user->screen_name,
@@ -72,18 +77,18 @@ class UsersController extends Controller
                 'email' => $user->email,
                 'profile_image' => $user->profile_image
             ]);
-        }else{
+        } else {
             return redirect('/');
         }
 
     }
 
-/**
-* @param  UserRequest  $request
-* @param  User  $user
-* @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-*/
-    public function update(UserRequest $request,User $user)
+    /**
+     * @param  UserRequest  $request
+     * @param  User  $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(UserRequest $request, User $user)
     {
         $data = $request->all();
 

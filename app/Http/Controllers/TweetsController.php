@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Services\SdkService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\App;
+
 
 class TweetsController extends Controller
 {
@@ -58,14 +59,18 @@ class TweetsController extends Controller
         $tweet_id = $tweet->id;
         $tweet_exist = $tweet->getEditTweet($user->id, $tweet_id);
 
-        $s3 = App::make('aws')->createClient('s3');
-        $profile_image = $s3->getObjectUrl(config('app.bucket'),$user->profile_image ? $user->profile_image : 'noimage.jpg');
+
+        $s3 = SdkService::sdkFunc();
+
+        $profile_image = $s3->getObjectUrl(config('app.aws.bucket'),
+            $user->profile_image ? $user->profile_image : 'noimage.jpg');
 
         if (!isset($tweet_exist)) {
             return redirect('/');
         }
 
         return view('tweets.edit', [
+            'user_id' => $user->id,
             'profile_image' => $profile_image,
             'name' => $user->name,
             'screen_name' => $user->screen_name,

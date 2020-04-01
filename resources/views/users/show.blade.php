@@ -16,8 +16,8 @@
                         <div class="p-3 d-flex flex-column justify-content-between">
                             <div class="d-flex">
                                 <div>
-                                    @if ($user->id === $login_user->id)
-                                        <a href="{{url('user/'.$user->id.'/edit')}}" class="btn btn-primary">プロフィールを編集する</a>
+                                    @if ($user_id === $login_user->id)
+                                        <a href="{{url('user/'.$user_id.'/edit')}}" class="btn btn-primary">プロフィールを編集する</a>
                                     @endif
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                             console.log('error');
                         }
                     });
-                }
+                 }
             });
         });
     </script>
